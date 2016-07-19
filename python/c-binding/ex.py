@@ -17,13 +17,12 @@ def psort(size):
     
     return timep/1e6
 
-cdef 
 
 if __name__=="__main__":
 
     print("Sort\nsize\tpython\tcython")
 
-    for i in range(2,7):
-        timep= psort (size)
-    
-        print("%s\t%s\t%s" %(size,timep,timec))
+    for size in range(2,7):
+        timep = psort (size)
+        timec = 0
+        print("%s\t%ss\t%ss" %(size,timep,timec))
