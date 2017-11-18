@@ -1,0 +1,101 @@
+package simple.contacts.api;
+
+import java.utils.Map;
+import java.sql.Class;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Result.;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+
+public class AddressRepository {
+
+    //  Database Properties
+    private  Connection conn;
+    static final String JDBC_DRIVER = "org.mariadb.jdbc.Driver";
+    static final String DB_URL = "jdbc:mariadb://172.17.0.2:3306/simple_contact_manager";
+    static final String USER = "root";
+    static final String PASSWORD = "my-root-pw";
+    
+    
+    public AddressRepository () {
+        try {
+            //STEP 2: Register JDBC driver
+            Class.forName(JDBC_DRIVER);
+            conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+        } catch (SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        } catch (Exception e) {
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        }
+    }
+
+    public long count() throws SQLException {
+	Statement stmt = conn.createStatement();
+	String query = "SELECT count(*) FROM address" ;
+
+	stmt.executeUpdate(query);
+    }
+
+    // public void delete(long id) throws SQLException {
+    // 	//TODO
+    // }
+
+    // public void delete(Iterable<Address> entities) throws SQLException {
+    // 	//TODO
+    // }
+
+    // public void deleteAll() throws SQLException {
+    // 	//TODO
+    // }
+
+    // public boolean exists(long id) throws SQLException {
+    // 	//TODO
+    // 	return false;
+    // }
+
+    public Iterable<Address> findAll() throws SQLException {
+	Statement stmt = conn.createStatement();
+	String query = "SELECT count(*) FROM address" ;
+
+	stmt.executeUpdate(query);
+	return null;
+    }
+    
+    // public Iterable<Address> findAll(Iterable<long> ids) throws SQLException {
+    // 	//TODO
+    // 	return null;
+    // }
+
+    public Iterable<Address> findFiltered(Map<String,String> filters) throws SQLException {
+	
+    }
+    
+    public Address findOne(long id) throws SQLException {
+	Statement stmt = conn.createStatement();
+	String query = "SELECT count(*) FROM address" ;
+
+	stmt.executeUpdate(query);
+	
+	return null;
+    }
+
+    public void save(Iterable<Address> addresses) throws SQLException {
+	//TODO
+    }
+
+    public void save(Address address) throws SQLException {
+	//TODO
+    }
+    
+    public void close() {
+	try {
+	    conn.close();
+	} catch (SQLException se) {
+	    se.printStackTrace();
+	}
+    }
+}
