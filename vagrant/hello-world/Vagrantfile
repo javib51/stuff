@@ -1,0 +1,69 @@
+# vi: set ft=ruby :
+
+#Default configuration options
+$master_vm_memory = 2048
+$slave_vm_memory = 2048
+
+Vagrant.configure("2") do |config|
+	config.vm.box = "generic/ubuntu1604"
+	config.ssh.private_key_path = ["keys/private/master", "~/.vagrant.d/insecure_private_key"]
+	config.ssh.insert_key = false
+
+	config.vm.define "master", primary: true do |master|
+		# OS Network
+		master.vm.network "private_network", ip: "17.6.17.10"
+		master.vm.hostname = "master"
+		
+		# Box Execution Properties
+		master.vm.provider "libvirt" do |lb|
+	        	lb.memory = $master_vm_memory
+     		end
+				
+		config.vm.provision "shell", inline: <<-EOC
+    			sudo sed -i -e "\\#PasswordAuthentication yes# s#PasswordAuthentication yes#PasswordAuthentication no#g" /etc/ssh/sshd_config
+    			sudo service ssh restart
+  		EOC
+		
+		# SSH Keys
+		master.ssh.insert_key = false
+		master.vm.provision "file", source: "keys/public/master.pub", destination: ".ssh/authorized_keys"
+		master.vm.provision "file", source: "keys/private/", destination: ".ssh/"
+		master.vm.provision "file", source: "keys/public/", destination: ".ssh/"
+
+		#config.vm.provision "shell",
+		#	inline: "sudo apt install -y python"
+		# Ansible Configuration
+		master.vm.provision "ansible" do |ansible|
+			ansible.playbook = "ansible/playbook.yml"
+			ansible.sudo = true
+			ansible.extra_vars = {
+				ansible_python_interpreter: "/usr/bin/python3.5",
+    			}				
+		end		
+	end
+
+	config.vm.define "slave1" do |slave1|
+		slave1.vm.network "private_network", ip: "17.6.17.2"
+		slave1.vm.hostname = "slave1"
+		slave1.vm.provider "libvirt" do |lb|
+	        	lb.memory = $slave_vm_memory
+     		end
+		
+		slave1.ssh.insert_key = false
+		slave1.vm.provision "file", source: "keys/private/slave1", destination: ".ssh/"
+		slave1.vm.provision "file", source: "keys/public/slave1.pub", destination: ".ssh/authorized_keys"
+	end
+
+	config.vm.define "slave2" do |slave2|
+		slave2.vm.network "private_network", ip: "17.6.17.3"
+		slave2.vm.hostname = "slave2"
+		slave2.vm.provider "libvirt" do |lb|
+	        	lb.memory = $slave_vm_memory
+     		end
+
+		slave2.ssh.insert_key = false
+		slave2.vm.provision "file", source: "keys/private/slave2", destination: ".ssh/"
+		slave2.vm.provision "file", source: "keys/public/slave2.pub", destination: ".ssh/authorized_keys"
+
+	end
+end

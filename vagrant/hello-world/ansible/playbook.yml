@@ -1,0 +1,30 @@
+-       hosts: all
+        tasks:
+                - name: install ansible
+                  package:
+                          name: ansible
+                          state: latest
+                - name: copy ansible hosts
+                  copy: 
+                        src: hosts
+                        dest: /etc/ansible/hosts
+                        owner: root
+                        group: root
+                        mode: 420
+                - name: Copy ansible config
+                  copy:
+                          src: ansible.cfg
+                          dest: /etc/ansible/ansible.cfg
+                          owner: root
+                          group: root
+                          mode: 420
+                - name: Set authorized key took from file
+                  authorized_key:
+                          user: vagrant
+                          state: present
+                          key: "{{ lookup('file', '../keys/public/slave1.pub') }}"
+                - name: Set authorized key took from file
+                  authorized_key:
+                          user: vagrant
+                          state: present
+                          key: "{{ lookup('file', '../keys/public/slave2.pub') }}"
