@@ -1,0 +1,9 @@
+-       name: include vars
+        include_vars: ../vars/portainer.yml
+-       name: Set admin pasword
+        uri:
+                url: "http://{{ ansible_default_ipv4.address }}:{{ portainer_port }}/api/users/admin/init"
+                method: POST
+                return_content: yes
+                body: {"Username": "admin","Password":"{{ portainer_admin_pass }}"}
+                body_format: json

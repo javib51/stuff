@@ -1,0 +1,16 @@
+-       name: include vars
+        include_vars: ../vars/docker-swarm.yml
+-       name: Init swarm manager
+        shell: "sudo docker swarm init --advertise-addr {{ ansible_default_ipv4.address }}"
+        register: results
+        when: ansible_default_ipv4.address in groups['manager']
+-       name: Get token
+        set_fact:
+                swarm_token: "{{ results.stdout | regex_search(regexp,'\\1') }}"
+        vars:
+                regexp: '--token (.*) \d*.\d*.\d*.\d*:\d*'
+        when: ansible_default_ipv4.address in groups['manager']
+-       name: Join cluster
+        command: "docker swarm join --token {{ swarm_token }} 10.2.3.10:2377"
+        when: ansible_default_ipv4.address in groups['nodes']
+

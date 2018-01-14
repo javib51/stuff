@@ -1,0 +1,5 @@
+[manager]
+192.168.121.35 ansible_python_interpreter=/usr/bin/python3
+[nodes]
+192.168.121.117 ansible_python_interpreter=/usr/bin/python3
+192.168.121.119 ansible_python_interpreter=/usr/bin/python3

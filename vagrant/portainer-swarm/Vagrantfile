@@ -1,0 +1,42 @@
+# vi: set ft=ruby :
+
+#Default configuration options
+$standard_vm_memory = 2048
+
+Vagrant.configure("2") do |config|
+	config.vm.box = "generic/ubuntu1604"
+	
+	config.vm.define "node1", primary: true do |node1|
+		# OS Network
+		node1.vm.network "private_network", ip: "10.2.3.10"
+		node1.vm.hostname = "node1"
+		node1.ssh.insert_key = false
+		# Box Execution Properties
+		node1.vm.provider "libvirt" do |lb|
+	        	lb.memory = $standard_vm_memory
+     		end	
+	end
+
+	config.vm.define "node2", primary: true do |node2|
+                  # OS Network
+		  node2.vm.network "private_network", ip: "10.2.3.11"
+                  node2.vm.hostname = "node2"
+                  node2.ssh.insert_key = false
+		  # Box Execution Properties
+                  node2.vm.provider "libvirt" do |lb|
+                          lb.memory = $standard_vm_memory
+                  end 
+          end
+
+	config.vm.define "node3", primary: true do |node3|
+		# OS Network
+		node3.vm.network "private_network", ip: "10.2.3.12"
+		node3.vm.hostname = "node3"
+		node3.ssh.insert_key = false
+		# Box Execution Properties
+		node3.vm.provider "libvirt" do |lb|
+	        	lb.memory = $standard_vm_memory
+     		end
+	end
+
+end

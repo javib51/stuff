@@ -1,0 +1,12 @@
+-       hosts: all
+        become: true
+        become_method: sudo
+        tasks:
+        - include: tasks/docker-install.yml
+        - include: tasks/docker-swarm-cluster.yml
+-       hosts: manager
+        become: true
+        become_method: sudo
+        tasks:
+        - include: tasks/portainer-install.yml
+        - include: tasks/portainer-conf.yml

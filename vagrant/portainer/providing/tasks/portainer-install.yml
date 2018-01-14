@@ -1,0 +1,6 @@
+-       name: include vars
+        include_vars: ../vars/portainer.yml
+-       name: Run Docker Portainer
+        command: "docker run -d -p {{ portainer_port }}:9000 \
+                  -v /var/run/docker.sock:/var/run/docker.sock \
+                  -v portainer_data:/data portainer/portainer:{{ portainer_version }}"

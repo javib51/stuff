@@ -1,0 +1,80 @@
+# vi: set ft=ruby :
+
+#Default configuration options
+$standard_vm_memory = 2048
+
+Vagrant.configure("2") do |config|
+	config.vm.box = "generic/ubuntu1604"
+	
+	config.vm.define "node1", primary: true do |node1|
+		# OS Network
+		node1.vm.network "private_network", ip: "17.6.17.10"
+		node1.vm.network "private_network", ip: "10.2.3.10"
+		node1.vm.hostname = "node1"
+		
+		# Box Execution Properties
+		node1.vm.provider "libvirt" do |lb|
+	        	lb.memory = $standard_vm_memory
+     		end	
+		
+		node1.vm.provision "ansible" do |ansible|
+                        ansible.playbook = "providing/master/playbook.yml"
+                        ansible.extra_vars = {
+                                ansible_python_interpreter: "/usr/bin/python3.5",
+                        }   
+                end 
+	end
+
+	config.vm.define "node2", primary: true do |node2|
+                  # OS Network
+                  node2.vm.network "private_network", ip: "17.6.17.11"
+		  node2.vm.network "private_network", ip: "10.2.3.11"
+                  node2.vm.hostname = "node2"
+                  
+                  # Box Execution Properties
+                  node2.vm.provider "libvirt" do |lb|
+                          lb.memory = $standard_vm_memory
+                  end 
+		  node2.vm.provision "ansible" do |ansible|
+                        ansible.playbook = "providing/slaves/playbook.yml"
+                        ansible.extra_vars = {
+                                ansible_python_interpreter: "/usr/bin/python3.5",
+                        }   
+                end 
+          end
+
+	config.vm.define "node3", primary: true do |node3|
+		# OS Network
+		node3.vm.network "private_network", ip: "17.6.17.12"
+		node3.vm.network "private_network", ip: "10.2.3.12"
+		node3.vm.hostname = "node3"
+		
+		# Box Execution Properties
+		node3.vm.provider "libvirt" do |lb|
+	        	lb.memory = $standard_vm_memory
+     		end
+		node3.vm.provision "ansible" do |ansible|
+                        ansible.playbook = "providing/slaves/playbook.yml"
+                        ansible.extra_vars = {
+                                ansible_python_interpreter: "/usr/bin/python3.5",
+                        }   
+                end 
+	end
+
+	config.vm.define "node4", primary: true do |node4|
+		# OS Network
+		node4.vm.network "private_network", ip: "17.6.17.13"
+		node4.vm.hostname = "node4"
+		
+		# Box Execution Properties
+		node4.vm.provider "libvirt" do |lb|
+	        	lb.memory = $standard_vm_memory
+     		end	
+		node4.vm.provision "ansible" do |ansible|
+                        ansible.playbook = "providing/slaves/playbook.yml"
+                        ansible.extra_vars = {
+                                ansible_python_interpreter: "/usr/bin/python3.5",
+                        }   
+                end 
+	end
+end
