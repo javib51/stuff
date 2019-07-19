@@ -1,0 +1,381 @@
+swagger: "2.0"
+info:
+  description: "This is a sample server Petstore server.  You can find out more about     Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).      For this sample, you can use the api key `special-key` to test the authorization     filters."
+  version: "1.0.0"
+  title: "Items service"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "javier.benitezf51@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "items-dot-trukatu-dev.appspot.com"
+#basePath: "/v2"
+tags:
+  - name: "items"
+    description: "managment of the products"
+    #externalDocs:
+    #  description: "Find out more"
+    #  url: "http://swagger.io"
+  - name: "categories"
+    description: "Access to Petstore orders"
+  - name: "booking"
+    description: "Operations about user"
+    externalDocs:
+      description: "Find out more about our store"
+      url: "http://swagger.io"
+schemes:
+  - "https"
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /category:
+    post:
+      description: 'TODO: Add Description'
+      summary: Post category
+      tags:
+        - categories
+      operationId: CategoryPost
+      deprecated: false
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      parameters:
+        - name: Body
+          in: body
+          required: true
+          description: ''
+          schema:
+            $ref: '#/definitions/PostcategoryRequest'
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /category/{categoryId}/subcategory:
+    post:
+      description: 'TODO: Add Description'
+      summary: Post subcategory
+      tags:
+        - categories
+      operationId: Category1SubcategoryPost
+      deprecated: false
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      parameters:
+        - name: "categoryId"
+          in: "path"
+          description: "ID of pet to return"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: Body
+          in: body
+          required: true
+          description: ''
+          schema:
+            $ref: '#/definitions/PostsubcategoryRequest'
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /categories:
+    get:
+      description: 'TODO: Add Description'
+      summary: Get all categories
+      tags:
+        - categories
+      operationId: CategoriesGet
+      deprecated: false
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: Bearer {token}
+          type: string
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /item/{itemId}/book:
+    post:
+      description: 'TODO: Add Description'
+      summary: Book dates
+      tags:
+        - booking
+      operationId: Item2BookPost
+      deprecated: false
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      parameters:
+        - name: "itemId"
+          in: "path"
+          description: "ID of pet to return"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: Body
+          in: body
+          required: true
+          description: ''
+          schema:
+            $ref: '#/definitions/BookdatesRequest'
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /item/{itemId}/release:
+    post:
+      description: 'TODO: Add Description'
+      summary: Release dates
+      tags:
+        - booking
+      operationId: Item2ReleasePost
+      deprecated: false
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      parameters:
+        - name: "itemId"
+          in: "path"
+          description: "ID of pet to return"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: Body
+          in: body
+          required: true
+          description: ''
+          schema:
+            $ref: '#/definitions/ReleasedatesRequest'
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /item:
+    post:
+      description: 'TODO: Add Description'
+      summary: POST Item
+      tags:
+        - items
+      operationId: ItemPost
+      deprecated: false
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: Bearer {token}
+          type: string
+        - name: Body
+          in: body
+          required: true
+          description: ''
+          schema:
+            $ref: '#/definitions/POSTItemRequest'
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /items:
+    get:
+      description: 'TODO: Add Description'
+      summary: Get Items
+      tags:
+        - items
+      operationId: ItemsGet
+      deprecated: false
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: Bearer {token}
+          type: string
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /item/{itemId}:
+    get:
+      description: 'TODO: Add Description'
+      summary: Get Item
+      tags:
+        - items
+      operationId: Item5Get
+      deprecated: false
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      parameters:
+        - name: "itemId"
+          in: "path"
+          description: "ID of pet to return"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /items/count:
+    get:
+      description: 'TODO: Add Description'
+      summary: Count Items
+      tags:
+        - items
+      operationId: ItemsCountGet
+      deprecated: false
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: Bearer {token}
+          type: string
+      responses:
+        200:
+          description: ''
+          headers: {}
+definitions:
+  PostcategoryRequest:
+    title: PostcategoryRequest
+    example:
+      name: Photography
+      picture: https://firebasestorage.googleapis.com/v0/b/trukatu-dev.appspot.com/o/categories%2FCategory_Photography.jpg?alt=media&token=203da7c8-3fe2-425e-85cb-f32100c6fe74
+    type: object
+    properties:
+      name:
+        type: string
+      picture:
+        type: string
+    required:
+      - name
+      - picture
+  PostsubcategoryRequest:
+    title: PostsubcategoryRequest
+    example:
+      name: Drones 2
+      picture: https://firebasestorage.googleapis.com/v0/b/trukatu-dev.appspot.com/o/categories%2FCategory_Photography.jpg?alt=media&token=203da7c8-3fe2-425e-85cb-f32100c6fe74
+    type: object
+    properties:
+      name:
+        type: string
+      picture:
+        type: string
+    required:
+      - name
+      - picture
+  BookdatesRequest:
+    title: BookdatesRequest
+    example:
+      start_date: 2012-04-21T10:00:00Z
+      end_date: 2012-05-20T10:00:00Z
+    type: object
+    properties:
+      start_date:
+        type: string
+      end_date:
+        type: string
+    required:
+      - start_date
+      - end_date
+  ReleasedatesRequest:
+    title: ReleasedatesRequest
+    example:
+      start_date: 2012-04-21T10:00:00Z
+      end_date: 2012-05-20T10:00:00Z
+    type: object
+    properties:
+      start_date:
+        type: string
+      end_date:
+        type: string
+    required:
+      - start_date
+      - end_date
+  POSTItemRequest:
+    title: POSTItemRequest
+    example:
+      title: My item2
+      description: this is a description2
+      dayPrice: 22.300000000000001
+      weekPrice: 44.5
+      monthPrice: 140.5
+      category_id: 1
+      subcategory_id: 2
+      photos:
+        - https://firebasestorage.googleapis.com/v0/b/trukatu-dev.appspot.com/o/categories%2FCategory_Photography.jpg?alt=media&token=203da7c8-3fe2-425e-85cb-f32100c6fe74
+        - https://firebasestorage.googleapis.com/v0/b/trukatu-dev.appspot.com/o/categories%2FCategory_Photography.jpg?alt=media&token=203da7c8-3fe2-425e-85cb-f32100c6fe74
+      user_id: MjTzSY3jNVcydgI56ixnYD2B54R2
+      unavailable_dates:
+        - 2012-03-01T10:00:00Z
+        - 2012-03-02T10:00:00Z
+    type: object
+    properties:
+      title:
+        type: string
+      description:
+        type: string
+      dayPrice:
+        type: number
+        format: double
+      weekPrice:
+        type: number
+        format: double
+      monthPrice:
+        type: number
+        format: double
+      category_id:
+        type: integer
+        format: int32
+      subcategory_id:
+        type: integer
+        format: int32
+      photos:
+        type: array
+        items:
+          type: string
+      user_id:
+        type: string
+      unavailable_dates:
+        type: array
+        items:
+          type: string
+    required:
+      - title
+      - description
+      - dayPrice
+      - weekPrice
+      - monthPrice
+      - category_id
+      - subcategory_id
+      - photos
+      - user_id
+      - unavailable_dates
